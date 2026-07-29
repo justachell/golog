@@ -11,6 +11,7 @@ import (
 
 const (
 	requestDelay = 2 // Delay between requests in seconds.
+	timeoutDelay = 3 // Delay of web-site request timeout in seconds.
 )
 
 func main() {
@@ -25,11 +26,15 @@ func main() {
 		url = "https://" + url
 	}
 
+	client := &http.Client{
+		Timeout: timeoutDelay * time.Second,
+	}
+
 	for {
 		time.Sleep(requestDelay * time.Second)
 
 		// Receiving web-site response.
-		resp, err := http.Get(url)
+		resp, err := client.Get(url)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "[ERR] %v\n", err)
 			continue
