@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -20,11 +21,17 @@ func main() {
 	url := args[1] // URL of web-site to check.
 
 	for {
+		time.Sleep(requestDelay * time.Second)
+
+		// Receiving web-site response.
 		resp, err := http.Get(url)
 		if err != nil {
-			// TODO: Error handing...
+			fmt.Fprintf("[ERR] %v\n", err)
+			continue
 		}
-		// TODO: Info output...
-		time.Sleep(requestDelay * time.Second)
+
+		// Prints web-site status information.
+		fmt.Printf("[INFO] status: %d %s\n", resp.StatusCode, resp.Status)
+		resp.Body.Close()
 	}
 }
