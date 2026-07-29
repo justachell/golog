@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -9,8 +10,17 @@ import (
 	"time"
 )
 
+type (
+	Log string
+)
+
 const (
-	requestDelay = 2 // Delay between requests in seconds.
+	// Types of log output.
+	LogInfo Log = "INFO"
+	LogWarn Log = "WARN"
+	LogErr  Log = "ERR"
+
+	requestDelay = 2 // Delay between web-site requests in seconds.
 	timeoutDelay = 3 // Delay of web-site request timeout in seconds.
 )
 
@@ -36,12 +46,19 @@ func main() {
 		// Receiving web-site response.
 		resp, err := client.Get(url)
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "[ERR] %v\n", err)
+			message := "Server is not responding"
+			logStatus(os.Stderr, LogErr, message)
 			continue
 		}
 
 		// Prints web-site status information.
-		fmt.Printf("[INFO] status: %s\n", resp.StatusCode, resp.Status)
+		message := "status " + resp.Status
+		logStatus(os.Stdout, LogInfo, message) // Logging status.
 		resp.Body.Close()
 	}
+}
+
+func logStatus(stream io.Writer, l Log, msg string) {
+	curTime := time.Now().Format("15:04:05")
+	fmt.Fprintf(stream, "[%s]\t%s\t%s\n", l, curTime, msg)
 }
