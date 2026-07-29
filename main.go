@@ -9,7 +9,16 @@ import (
 	"time"
 )
 
+type (
+	Log string
+)
+
 const (
+	// Types of log output.
+	LogInfo Log = "INFO"
+	LogWarn Log = "WARN"
+	LogErr  Log = "ERR"
+
 	requestDelay = 2 // Delay between requests in seconds.
 	timeoutDelay = 3 // Delay of web-site request timeout in seconds.
 )
