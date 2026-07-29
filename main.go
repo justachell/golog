@@ -41,7 +41,7 @@ func main() {
 		}
 
 		// Prints web-site status information.
-		fmt.Printf("[INFO] status: %d %s\n", resp.StatusCode, resp.Status)
+		fmt.Printf("[INFO] status: %s\n", resp.StatusCode, resp.Status)
 		resp.Body.Close()
 	}
 }
