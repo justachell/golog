@@ -26,7 +26,7 @@ func main() {
 		// Receiving web-site response.
 		resp, err := http.Get(url)
 		if err != nil {
-			fmt.Fprintf("[ERR] %v\n", err)
+			fmt.Fprintf(os.Stderr, "[ERR] %v\n", err)
 			continue
 		}
 
