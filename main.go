@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -19,6 +20,10 @@ func main() {
 	}
 
 	url := args[1] // URL of web-site to check.
+	if !strings.HasPrefix(url, "http://") &&
+		!strings.HasPrefix(url, "https://") {
+		url = "https://" + url
+	}
 
 	for {
 		time.Sleep(requestDelay * time.Second)
